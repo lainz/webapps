@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html ng-app="Palindromo">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Palindromos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+        [ng\:cloak],
+        [ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container" ng-controller="PalindromoController as pc">
+        <div class="page-header">
+            <h1>Palindromos</h1>
+        </div>
+        <p class="lead">Posible solución al <a href="http://www.oia.unsam.edu.ar/_media/prob/c3a98n1p1.pdf">ejercicio de la OIA Palindromos</a></p>
+        <p class="input-group">
+            <input type="text" class="form-control" ng-change="pc.procesar()" ng-model="pc.entrada" placeholder="Ingrese una palabra">
+        </p>
+        <p class="ng-cloak">
+            <ul class="list-group">
+                <li class="list-group-item" ng-repeat="sal in pc.salida">{{sal.text}}</li>
+            </ul>
+        </p>
+    </div>
+    <script>
+        (function () {
+            var app = angular.module('Palindromo', []);
+
+            function reversa() {
+                var str = this.toString();
+                var strFlip = '';
+                for (var i = str.length - 1; i >= 0; i--) {
+                    strFlip = strFlip + str[i];
+                }
+                return strFlip;
+            }
+            String.prototype.reversa = reversa;
+
+            function esPalindromo(origen) {
+                var temp = origen;
+                return (temp === temp.reversa());
+            }
+
+            function esIPalindromo(origen) {
+                var temp = origen.substring(1, origen.length);
+                return (temp === temp.reversa());
+            }
+
+            function esDPalindromo(origen) {
+                var temp = origen.substring(0, origen.length - 1);
+                return (temp === temp.reversa());
+            }
+
+            app.controller('PalindromoController', function () {
+                this.procesar = function () {
+                    this.salida = [];
+                    var entrada = this.entrada;
+                    for (var i = 3; i <= entrada.length; i++) {
+                        for (var j = 0; j <= entrada.length; j++) {
+                            var len = j + i;
+                            if (len <= entrada.length) {
+                                var sub = entrada.substring(j, j + i);
+                                if (sub.length === i) {
+                                    var espalin = esPalindromo(sub);
+                                    var esipalin = false;
+                                    var esdpalin = false;
+                                    if (i > 3) {
+                                        esipalin = esIPalindromo(sub);
+                                        esdpalin = esDPalindromo(sub);
+                                    }
+                                    if (espalin || esipalin || esdpalin) {
+                                        var salida = {};
+                                        salida.text = sub + " ";
+                                        if (espalin) {
+                                            salida.text = salida.text + "palindromo ";
+                                        }
+                                        if (esipalin) {
+                                            salida.text = salida.text + "i-palindromo ";
+                                        }
+                                        if (esdpalin) {
+                                            salida.text = salida.text + "d-palindromo ";
+                                        }
+                                        this.salida.push(salida);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (this.salida.length == 0) {
+                        this.salida.push({ text: "no se puede" });
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

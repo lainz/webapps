@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html ng-app="Frecuencias">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Frecuencias</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+        [ng\:cloak],
+        [ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container" ng-controller="FrecuenciasController as pc">
+        <div class="page-header">
+            <h1>Frecuencias</h1>
+        </div>
+        <p class="lead">Obtener las cantidad de veces que aparece una palabra en un texto</a>
+        </p>
+        <p class="form-group">
+            <textarea type="text" class="form-control" ng-change="pc.procesar()" ng-model="pc.entrada" placeholder="Ingrese un texto"
+                rows="10"></textarea>
+        </p>
+        <div class="ng-cloack panel panel-default">
+            <div class="panel-heading">Resultados</div>
+            <div class="panel-body">
+                <p>En este texto hay {{pc.salida.length}} palabras únicas y un total de {{pc.palabras}} palabras.</p>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Palabra</th>
+                        <th>Frecuencia</th>
+                        <th>Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="sal in pc.salida">
+                        <td><a href="http://dle.rae.es/?w={{sal.palabra}}" target="_blank">{{sal.palabra}}</a></td>
+                        <td>{{sal.frecuencia}}</td>
+                        <td>{{sal.porcentaje}}%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        (function () {
+            var app = angular.module('Frecuencias', []);
+
+            app.controller('FrecuenciasController', function () {
+                this.entrada = "En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor. Una olla de algo más vaca que carnero, salpicón las más noches, duelos y quebrantos los sábados, lentejas los viernes, algún palomino de añadidura los domingos, consumían las tres partes de su hacienda. El resto della concluían sayo de velarte, calzas de velludo para las fiestas con sus pantuflos de lo mismo, los días de entre semana se honraba con su vellori de lo más fino. Tenía en su casa una ama que pasaba de los cuarenta, y una sobrina que no llegaba a los veinte, y un mozo de campo y plaza, que así ensillaba el rocín como tomaba la podadera. Frisaba la edad de nuestro hidalgo con los cincuenta años, era de complexión recia, seco de carnes, enjuto de rostro; gran madrugador y amigo de la caza. Quieren decir que tenía el sobrenombre de Quijada o Quesada (que en esto hay alguna diferencia en los autores que deste caso escriben), aunque por conjeturas verosímiles se deja entender que se llama Quijana; pero esto importa poco a nuestro cuento; basta que en la narración dél no se salga un punto de la verdad.";
+
+                this.procesar = function () {
+                    var palabras = this.entrada.replace((/[^A-Za-zÀ-ɏ]+/g), ",").toLowerCase().split(",");
+                    
+                    if (palabras.length == 1) {
+                        if (palabras[0] == "") {
+                            this.palabras = 0;
+                            this.salida = [];
+                            return;
+                        }
+                    }
+
+                    this.palabras = palabras.length;
+                    var salida = [];
+
+                    function buscar(palabra) {
+                        for (var i = 0; i < salida.length; i++) {
+                            if (salida[i].palabra == palabra) {
+                                return i;
+                            }
+                        }
+                        return -1;
+                    }
+
+                    for (var i = 0; i < palabras.length; i++) {
+                        var id = buscar(palabras[i]);
+                        if (id != -1) {
+                            salida[id].frecuencia = salida[id].frecuencia + 1;
+                        } else {
+							if (palabras[i] != "")
+                                salida.push({ palabra: palabras[i], frecuencia: 1 });
+                        }
+                    }
+
+                    for (var i = 0; i < salida.length; i++) {
+                        salida[i].porcentaje = ((salida[i].frecuencia * 100) / palabras.length).toFixed(2);
+                    }
+
+                    salida.sort(function (a, b) {
+                        if (a.frecuencia > b.frecuencia) {
+                            return -1;
+                        }
+                        if (a.frecuencia < b.frecuencia) {
+                            return 1;
+                        }
+                        if (a.frecuencia == b.frecuencia) {
+                            if (a.palabra > b.palabra) {
+                                return 1;
+                            }
+                            if (a.palabra < b.palabra) {
+                                return -1;
+                            }
+                        }
+                        return 0;
+                    });
+
+                    this.salida = salida;
+                }
+
+                this.procesar();
+            });
+        })();
+    </script>
+</body>
+
+</html>
