@@ -30,7 +30,7 @@
         </div>
         <p class="lead">Calcula el siglo según un año dado</p>
         <p class="input-group">
-            <input type="number" class="form-control" ng-change="pc.procesar()" ng-model="pc.entrada" placeholder="Ingrese un año">
+            <input type="number" class="form-control" ng-change="pc.procesar()" ng-model="pc.entrada" placeholder="Ingrese un año" min="-99999999999999999" max="99999999999999999">
         </p>
         <p class="ng-cloak">
             Siglo: {{pc.salida}}
@@ -48,6 +48,10 @@
                 if (year.charAt(0) == "-") {
                     year = year.substring(1, year.length);
                     suf = ' a. C.';
+                }
+
+                if (year.search(/[^0-9]/) != -1) {
+                    return "El año contiene caracteres no válidos.";
                 }
 
                 if (year.length > 0 && year.length < 3) {
