@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html ng-app="Siglos">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Siglos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+        [ng\:cloak],
+        [ng-cloak],
+        [data-ng-cloak],
+        [x-ng-cloak],
+        .ng-cloak,
+        .x-ng-cloak {
+            display: none !important;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.3/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container" ng-controller="SiglosController as pc">
+        <div class="page-header">
+            <h1>Siglos</h1>
+        </div>
+        <p class="lead">Calcula el siglo según un año dado</p>
+        <p class="input-group">
+            <input type="number" class="form-control" ng-change="pc.procesar()" ng-model="pc.entrada" placeholder="Ingrese un año">
+        </p>
+        <p class="ng-cloak">
+            Siglo: {{pc.salida}}
+        </p>
+    </div>
+    <script>
+        (function () {
+            var app = angular.module('Siglos', []);
+
+            function siglo(year) {
+                year = year.toString();
+                if (year.length > 0 && year.length < 3) {
+                    return 1;
+                }
+
+                if (year.length > 2) {
+                    if (year.substring(year.length - 2, year.length) == "00") {
+                        return parseInt(year.substring(0, year.length - 2));
+                    } else {
+                        return parseInt(year.substring(0, year.length - 2)) + 1;
+                    }
+                }
+            }
+
+            app.controller('SiglosController', function () {
+                this.procesar = function () {
+                    this.salida = siglo(this.entrada);
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>
