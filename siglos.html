@@ -42,22 +42,34 @@
 
             function siglo(year) {
                 year = year.toString();
+
+                var suf = ' d. C.';
+
+                if (year.charAt(0) == "-") {
+                    year = year.substring(1, year.length);
+                    suf = ' a. C.';
+                }
+
                 if (year.length > 0 && year.length < 3) {
-                    return 1;
+                    return 1 + suf;
                 }
 
                 if (year.length > 2) {
                     if (year.substring(year.length - 2, year.length) == "00") {
-                        return parseInt(year.substring(0, year.length - 2));
+                        return year.substring(0, year.length - 2) + suf;
                     } else {
-                        return parseInt(year.substring(0, year.length - 2)) + 1;
+                        return (parseInt(year.substring(0, year.length - 2)) + 1) + suf;
                     }
                 }
             }
 
             app.controller('SiglosController', function () {
                 this.procesar = function () {
-                    this.salida = siglo(this.entrada);
+                    if (this.entrada != null) {
+                        this.salida = siglo(this.entrada);
+                    } else {
+                        this.salida = "";
+                    }
                 }
             });
         })();
