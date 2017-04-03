@@ -72,8 +72,6 @@
                 this.procesar = function () {
                     var palabras = this.entrada.replace((/[^A-Za-zÀ-ɏ]+/g), ",").toLowerCase().split(",");
 
-                    this.grafico = "";
-
                     if (palabras.length == 1) {
                         if (palabras[0] == "") {
                             this.palabras = 0;
@@ -128,7 +126,7 @@
 
                     this.salida = salida;
 
-                    var grafico = ['Frecuencias'];
+                    /*var grafico = ['Frecuencias'];
                     for (var i = 0; i < salida.length; i++) {
                         grafico.push(salida[i].frecuencia);
                     }
@@ -138,7 +136,7 @@
                         data: {
                             columns: [grafico]
                         }
-                    });
+                    });*/
                 }
 
                 this.procesar();
