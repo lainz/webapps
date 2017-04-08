@@ -43,7 +43,7 @@
 
             app.controller('SiglosController', function () {
                 this.procesar = function () {
-                    this.salida = (this.entrada != null ? Math.ceil(this.entrada / 100) + (this.entrada < 0 ? ' a. C.' : ' d. C.') : "");
+                    this.salida = this.entrada != null ? Math.max(Math.ceil((this.entrada < 0 ? -this.entrada / 100 : this.entrada / 100)), 1) + (this.entrada < 0 ? ' a. C.' : ' d. C.') : "";
                 }
             });
         })();
