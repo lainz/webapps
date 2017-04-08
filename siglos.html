@@ -30,7 +30,8 @@
         </div>
         <p class="lead">Calcula el siglo según un año dado</p>
         <p class="input-group">
-            <input type="number" class="form-control" ng-change="pc.procesar()" ng-model="pc.entrada" placeholder="Ingrese un año" min="-99999999999999999" max="99999999999999999">
+            <input type="number" class="form-control" ng-change="pc.procesar()" ng-model="pc.entrada" placeholder="Ingrese un año" min="-99999999999999999"
+                max="99999999999999999">
         </p>
         <p class="ng-cloak">
             Siglo: {{pc.salida}}
@@ -40,40 +41,9 @@
         (function () {
             var app = angular.module('Siglos', []);
 
-            function siglo(year) {
-                year = year.toString();
-
-                var suf = ' d. C.';
-
-                if (year.charAt(0) == "-") {
-                    year = year.substring(1, year.length);
-                    suf = ' a. C.';
-                }
-
-                if (year.search(/[^0-9]/) != -1) {
-                    return "El año contiene caracteres no válidos.";
-                }
-
-                if (year.length > 0 && year.length < 3) {
-                    return 1 + suf;
-                }
-
-                if (year.length > 2) {
-                    if (year.substring(year.length - 2, year.length) == "00") {
-                        return year.substring(0, year.length - 2) + suf;
-                    } else {
-                        return (parseInt(year.substring(0, year.length - 2)) + 1) + suf;
-                    }
-                }
-            }
-
             app.controller('SiglosController', function () {
                 this.procesar = function () {
-                    if (this.entrada != null) {
-                        this.salida = siglo(this.entrada);
-                    } else {
-                        this.salida = "";
-                    }
+                    this.salida = (this.entrada != null ? Math.ceil(this.entrada / 100) + (this.entrada < 0 ? ' a. C.' : ' d. C.') : "");
                 }
             });
         })();
