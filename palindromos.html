@@ -43,18 +43,12 @@
             var app = angular.module('Palindromo', []);
 
             function reversa() {
-                var str = this.toString();
-                var strFlip = '';
-                for (var i = str.length - 1; i >= 0; i--) {
-                    strFlip = strFlip + str[i];
-                }
-                return strFlip;
+                return this.toString().split("").reverse().join("")
             }
             String.prototype.reversa = reversa;
 
             function esPalindromo(origen) {
-                var temp = origen;
-                return (temp === temp.reversa());
+                return (origen === origen.reversa());
             }
 
             function esIPalindromo(origen) {

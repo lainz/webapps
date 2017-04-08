@@ -76,17 +76,15 @@
 
                 this.cambiar_grafico = function () {
                     this.graficar = !this.graficar;
-                    if (this.graficar) {
+                    if (this.graficar)
                         this.procesar();
-                    }
                 }
 
                 this.procesar = function () {
                     var palabras = this.entrada.replace((/[^A-Za-zÀ-ɏ]+/g), ",").toLowerCase().split(",");
 
-                    if (palabras[palabras.length - 1] == "") {
+                    if (palabras[palabras.length - 1] == "")
                         palabras.pop();
-                    }
 
                     if (palabras.length == 0) {
                         this.palabras = 0;
@@ -97,17 +95,8 @@
                     this.palabras = palabras.length;
                     var salida = [];
 
-                    function buscar(palabra) {
-                        for (var i = 0; i < salida.length; i++) {
-                            if (salida[i].palabra == palabra) {
-                                return i;
-                            }
-                        }
-                        return -1;
-                    }
-
                     for (var i = 0; i < palabras.length; i++) {
-                        var id = buscar(palabras[i]);
+                        var id = salida.findIndex(x => x.palabra === palabras[i]);
                         if (id != -1) {
                             salida[id].frecuencia = salida[id].frecuencia + 1;
                         } else {
@@ -120,19 +109,15 @@
                     }
 
                     salida.sort(function (a, b) {
-                        if (a.frecuencia > b.frecuencia) {
+                        if (a.frecuencia > b.frecuencia)
                             return -1;
-                        }
-                        if (a.frecuencia < b.frecuencia) {
+                        if (a.frecuencia < b.frecuencia)
                             return 1;
-                        }
                         if (a.frecuencia == b.frecuencia) {
-                            if (a.palabra > b.palabra) {
+                            if (a.palabra > b.palabra)
                                 return 1;
-                            }
-                            if (a.palabra < b.palabra) {
+                            if (a.palabra < b.palabra)
                                 return -1;
-                            }
                         }
                         return 0;
                     });
@@ -141,9 +126,8 @@
 
                     if (this.graficar) {
                         var grafico = ['Frecuencias'];
-                        for (var i = 0; i < salida.length; i++) {
+                        for (var i = 0; i < salida.length; i++)
                             grafico.push(salida[i].frecuencia);
-                        }
 
                         var chart = c3.generate({
                             bindto: '#chart',
