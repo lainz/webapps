@@ -5,5 +5,7 @@ Obtener las cantidad de veces que aparece una palabra en un texto
 Posible solución al ejercicio de la OIA Palindromos
 * [Siglos](https://lainz.github.io/webapps/siglos.html)
 Calcula el siglo según un año dado
+* [Lista de Compras](https://lainz.github.io/webapps/compras.html)
+Calcula el total de tu compra
 
 Copyright 2017 Leandro Diaz (lainz).
