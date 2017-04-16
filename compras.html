@@ -61,11 +61,17 @@
 
 <body>
     <!-- Always shows a header, even in smaller screens. -->
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" ng-controller="ComprasController as cs">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <!-- Title -->
                 <span class="mdl-layout-title">Lista de Compras</span>
+                <!-- Add spacer, to align navigation to the right -->
+                <div class="mdl-layout-spacer"></div>
+                <!-- Navigation. We hide it in small screens. -->
+                <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="" ng-click="cs.limpiar()">Limpiar</a>
+                </nav>
             </div>
         </header>
         <div class="mdl-layout__drawer">
@@ -75,7 +81,7 @@
             </nav>
         </div>
         <main class="mdl-layout__content">
-            <div class="page-content" ng-controller="ComprasController as cs">
+            <div class="page-content">
                 <table id="my-table" class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                     <thead>
                         <tr>
@@ -89,19 +95,19 @@
                         <tr ng-repeat="prod in cs.items">
                             <td class="mdl-data-table__cell--non-numeric">
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input class="mdl-textfield__input" type="text" id="producto{{$index}}" ng-model="prod.producto" set-focus="$last" tabindex="1">
+                                    <input class="mdl-textfield__input" type="text" id="producto{{$index}}" ng-model="prod.producto" set-focus="$last" tabindex="1" ng-change="cs.procesar()" ng-model-options="{debounce:500}">
                                     <label class="mdl-textfield__label" for="producto{{$index}}">Producto...</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input class="mdl-textfield__input" type="number" id="precio{{$index}}" step="any" ng-model="prod.precio" min="0" ng-change="cs.procesar()">
+                                    <input class="mdl-textfield__input" type="number" id="precio{{$index}}" step="any" ng-model="prod.precio" min="0" ng-change="cs.procesar()" ng-model-options="{debounce:500}">
                                     <label class="mdl-textfield__label" for="precio{{$index}}">Precio...</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input class="mdl-textfield__input" type="number" id="cantidad{{$index}}" step="any" ng-model="prod.cantidad" min="1" ng-change="cs.procesar()">
+                                    <input class="mdl-textfield__input" type="number" id="cantidad{{$index}}" step="any" ng-model="prod.cantidad" min="1" ng-change="cs.procesar()" ng-model-options="{debounce:500}">
                                     <label class="mdl-textfield__label" for="cantidad{{$index}}">Cantidad...</label>
                                 </div>
                             </td>
@@ -136,8 +142,6 @@
                 });
 
                 app.controller('ComprasController', function () {
-                    this.items = [{ producto: "", precio: "", cantidad: 1 }]
-
                     this.agregar = function () {
                         this.items.push({ producto: "", precio: "", cantidad: 1 });
                     }
@@ -147,15 +151,29 @@
                         this.procesar();
                     }
 
+                    this.limpiar = function() {
+                        this.items = [{ producto: "", precio: "", cantidad: 1 }];
+                        this.procesar();
+                    }
+
                     this.procesar = function (index) {
                         let total = 0.0;
                         this.items.forEach((item, index) => {
                             return total += (item.precio * item.cantidad);
                         })
                         this.salida = total;
+                        localStorage.setItem("items", JSON.stringify(this.items));
                     }
 
-                    this.salida = 0;
+                    let items = JSON.parse(localStorage.getItem("items"));
+
+                    if (items != null && items != undefined) {
+                        this.items = items;
+                    } else {
+                        this.items = [{ producto: "", precio: "", cantidad: 1 }]
+                    }
+
+                    this.procesar();
                 });
             })();
         </script>
