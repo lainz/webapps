@@ -95,19 +95,22 @@
                         <tr ng-repeat="prod in cs.items">
                             <td class="mdl-data-table__cell--non-numeric">
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input class="mdl-textfield__input" type="text" id="producto{{$index}}" ng-model="prod.producto" set-focus="$last" tabindex="1" ng-change="cs.procesar()" ng-model-options="{debounce:500}">
+                                    <input class="mdl-textfield__input" type="text" id="producto{{$index}}" ng-model="prod.producto" set-focus="$last" tabindex="1"
+                                        ng-change="cs.procesar()" ng-model-options="{debounce:500}">
                                     <label class="mdl-textfield__label" for="producto{{$index}}">Producto...</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input class="mdl-textfield__input" type="number" id="precio{{$index}}" step="any" ng-model="prod.precio" min="0" ng-change="cs.procesar()" ng-model-options="{debounce:500}">
+                                    <input class="mdl-textfield__input" type="number" id="precio{{$index}}" step="any" ng-model="prod.precio" min="0" ng-change="cs.procesar()"
+                                        ng-model-options="{debounce:500}">
                                     <label class="mdl-textfield__label" for="precio{{$index}}">Precio...</label>
                                 </div>
                             </td>
                             <td>
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input class="mdl-textfield__input" type="number" id="cantidad{{$index}}" step="any" ng-model="prod.cantidad" min="1" ng-change="cs.procesar()" ng-model-options="{debounce:500}">
+                                    <input class="mdl-textfield__input" type="number" id="cantidad{{$index}}" step="any" ng-model="prod.cantidad" min="0" ng-change="cs.procesar()"
+                                        ng-model-options="{debounce:500}">
                                     <label class="mdl-textfield__label" for="cantidad{{$index}}">Cantidad...</label>
                                 </div>
                             </td>
@@ -148,10 +151,12 @@
 
                     this.eliminar = function (index) {
                         this.items.splice(index, 1);
+                        if (this.items.length == 0)
+                            this.agregar();
                         this.procesar();
                     }
 
-                    this.limpiar = function() {
+                    this.limpiar = function () {
                         this.items = [{ producto: "", precio: "", cantidad: 1 }];
                         this.procesar();
                     }
