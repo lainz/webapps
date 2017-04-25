@@ -70,6 +70,7 @@
                 <div class="mdl-layout-spacer"></div>
                 <!-- Navigation. We hide it in small screens. -->
                 <nav class="mdl-navigation">
+                    <a class="mdl-navigation__link" href="" ng-click="cs.descargar()">Descargar CSV</a>
                     <a class="mdl-navigation__link" href="" ng-click="cs.limpiar()">Limpiar</a>
                 </nav>
             </div>
@@ -130,6 +131,22 @@
         </main>
         <script>
             (function () {
+
+                function save(filename, data) {
+                    var blob = new Blob([data], { type: 'text/csv' });
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        window.navigator.msSaveBlob(blob, filename);
+                    }
+                    else {
+                        var elem = window.document.createElement('a');
+                        elem.href = window.URL.createObjectURL(blob);
+                        elem.download = filename;
+                        document.body.appendChild(elem);
+                        elem.click();
+                        document.body.removeChild(elem);
+                    }
+                }
+
                 var app = angular.module('Compras', []);
 
                 app.directive('setFocus', function () {
@@ -168,6 +185,16 @@
                         })
                         this.salida = total;
                         localStorage.setItem("items", JSON.stringify(this.items));
+                    }
+
+                    this.descargar = function () {
+                        var out = this.items.map(function (obj) {
+                            return `"${obj.producto}";"${obj.precio.toLocaleString()}";"${obj.cantidad.toLocaleString()}"`
+                        });
+
+                        out.push(`"Total:";"${this.salida.toLocaleString()}";""`);
+
+                        save("compras.csv", out.join("\n"));
                     }
 
                     let items = JSON.parse(localStorage.getItem("items"));
