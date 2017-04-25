@@ -190,10 +190,10 @@
 
                     this.descargar = function () {
                         var out = this.items.map(function (obj) {
-                            return `"${obj.producto}";"${obj.precio.toLocaleString()}";"${obj.cantidad.toLocaleString()}"`
+                            return `"${obj.producto}","${obj.precio.toLocaleString()}","${obj.cantidad.toLocaleString()}"`
                         });
 
-                        out.push(`"Total:";"${this.salida.toLocaleString()}";""`);
+                        out.push(`"Total:","${this.salida.toLocaleString()}",""`);
 
                         save("compras.csv", out.join("\n"));
                     }
