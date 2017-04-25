@@ -35,6 +35,10 @@
             width: 100%;
         }
         
+        .last {
+            width: 20px;
+        }
+        
         #my-table td,
         th {
             width: 100%;
@@ -43,10 +47,6 @@
             text-overflow: ellipsis;
             -o-text-overflow: ellipsis;
             padding: 5px 5px;
-        }
-        
-        .last {
-            width: 20px;
         }
         
         #my-table td:first-of-type {
@@ -78,7 +78,8 @@
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">Lista de Compras</span>
             <nav class="mdl-navigation">
-                <a class="mdl-navigation__link" href="https://play.google.com/store/apps/developer?id=Two%20Gentlemen%20Software">Más aplicaciones</a>
+                <a class="mdl-navigation__link" href="https://lainz.github.io/webapps/">Más aplicaciones</a>
+                <a class="mdl-navigation__link" href="https://play.google.com/store/apps/developer?id=Two%20Gentlemen%20Software">Two Gentlemen Software</a>
             </nav>
         </div>
         <main class="mdl-layout__content">
@@ -96,8 +97,8 @@
                         <tr ng-repeat="prod in cs.items">
                             <td class="mdl-data-table__cell--non-numeric">
                                 <div class="mdl-textfield mdl-js-textfield">
-                                    <input class="mdl-textfield__input" type="text" id="producto{{$index}}" ng-model="prod.producto" set-focus="$last" tabindex="1"
-                                        ng-change="cs.procesar()" ng-model-options="{debounce:500}">
+                                    <input class="mdl-textfield__input" type="text" id="producto{{$index}}" ng-model="prod.producto" set-focus="$last" ng-change="cs.procesar()"
+                                        ng-model-options="{debounce:500}">
                                     <label class="mdl-textfield__label" for="producto{{$index}}">Producto...</label>
                                 </div>
                             </td>
