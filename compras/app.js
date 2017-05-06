@@ -52,7 +52,7 @@
                 return total += (item.precio * item.cantidad);
             })
             this.salida = total;
-            localStorage.setItem("items", JSON.stringify(this.items));
+            localStorage.setItem("lista-de-compras-items", JSON.stringify(this.items));
         }
 
         this.descargar = function () {
@@ -65,9 +65,9 @@
             save("compras.csv", out.join("\n"));
         }
 
-        let items = JSON.parse(localStorage.getItem("items"));
+        let items = JSON.parse(localStorage.getItem("lista-de-compras-items"));
 
-        if (items != null && items != undefined) {
+        if (items) {
             this.items = items;
         } else {
             this.items = [{ producto: "", precio: "", cantidad: 1 }]
