@@ -7,7 +7,8 @@ var filesToCache = [
   '/webapps/compras/icon.css',
   '/webapps/compras/material.indigo-pink.min.css',
   '/webapps/compras/material.min.js',
-  '/webapps/compras/icon.woff2'
+  '/webapps/compras/icon.woff2',
+  '/webapps/compras/angular.min.js'
 ];
 
 self.addEventListener('install', function(e) {
