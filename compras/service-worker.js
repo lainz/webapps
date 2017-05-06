@@ -1,12 +1,13 @@
-var dataCacheName = 'comprasData-v1.4';
-var cacheName = 'comprasPWA-final-1.4';
+var dataCacheName = 'comprasData-v1.5';
+var cacheName = 'comprasPWA-final-1.5';
 var filesToCache = [
-  'index.html',
-  'app.js',
-  'icon.css',
-  'material.indigo-pink.min.css',
-  'material.min.js',
-  '2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2'
+  '/webapps/compras/',
+  '/webapps/compras/index.html',
+  '/webapps/compras/app.js',
+  '/webapps/compras/icon.css',
+  '/webapps/compras/material.indigo-pink.min.css',
+  '/webapps/compras/material.min.js',
+  '/webapps/compras/icon.woff2'
 ];
 
 self.addEventListener('install', function(e) {
