@@ -15,4 +15,5 @@ Calcula el siglo según un año dado
 
 Calcula el total de tu compra
 
-Copyright 2017 Leandro Diaz (lainz).
+# Acerca de
+Web Apps Copyright 2017 Leandro Diaz (lainz).
