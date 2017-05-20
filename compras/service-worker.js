@@ -1,5 +1,5 @@
-var dataCacheName = 'comprasData-v1.6';
-var cacheName = 'comprasPWA-final-1.6';
+var dataCacheName = 'comprasData-v1.6.1';
+var cacheName = 'comprasPWA-final-1.6.1';
 var filesToCache = [
   '/webapps/compras/',
   '/webapps/compras/index.html',
