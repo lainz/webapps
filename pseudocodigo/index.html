@@ -2,7 +2,7 @@
 <html ng-app="PseudoCodigo">
 
 <head>
-    <title>Pseudo Código</title>
+    <title>Pseudocódigo</title>
     <meta charset="UTF-8">
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
@@ -23,14 +23,14 @@
 
 <body ng-controller="PseudoCodigoController as pc">
     <div>
-        <h3>Pseudo Código</h4>
+        <h3>Pseudocódigo</h4>
             <p>El código que escribas se guarda automáticamente. La próxima vez que abras el navegador tendrás tu código como lo dejaste.</p>
             <p><a href="#ejecutar">Ejecutar</a>, <a href="#referencia">Referencia</a></p>
             <textarea spellcheck="false" ng-change="pc.procesar()" ng-model="pc.entrada" style="width: 100%; height: 70vh"></textarea>
     </div>
     <div id="ejecutar">
         <h3>Salida JavaScript</h4>
-            <p>Ejecuta el Pseudo Código convertido a JavaScript: <input type="button" ng-click="pc.ejecutar()" value="Ejecutar"> Si no llegara a ejecutarse revisa la consola del navegador para ver el error, en Chrome: Ctrl + Mayus + I, en Firefox: Ctrl + Mayus + K.</p>
+            <p>Ejecuta el Pseudocódigo convertido a JavaScript: <input type="button" ng-click="pc.ejecutar()" value="Ejecutar"> Si no llegara a ejecutarse revisa la consola del navegador para ver el error, en Chrome: Ctrl + Mayus + I, en Firefox: Ctrl + Mayus + K.</p>
             <textarea readonly spellcheck="false" ng-model="pc.salida4" style="width: 100%; height: 70vh"></textarea>
     </div>
     <div id="referencia">

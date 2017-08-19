@@ -15,7 +15,7 @@ Calcula el siglo según un año dado
 
 Calcula el total de tu compra
 
-* [Pseudo Código](https://lainz.github.io/webapps/pseudocodigo/)
+* [Pseudocódigo](https://lainz.github.io/webapps/pseudocodigo/)
 
 Codifica en español y ejecuta en javascript
 
