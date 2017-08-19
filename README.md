@@ -15,5 +15,9 @@ Calcula el siglo según un año dado
 
 Calcula el total de tu compra
 
+* [Pseudo Código](https://lainz.github.io/webapps/pseudocodigo/)
+
+Codifica en español y ejecuta en javascript
+
 # Acerca de
 Web Apps Copyright 2017 Leandro Diaz (lainz).
