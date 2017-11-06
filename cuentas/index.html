@@ -1,0 +1,150 @@
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Angular Material style sheet -->
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+  <link rel="stylesheet" href="./res/style.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body ng-app="CuentasPersonales" ng-cloak>
+  <div ng-controller="InicioController as ic">
+    <div ng-show="!ic.modoEdicion">
+      <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools titulo">
+          <div>{{ic.titulo}}</div>
+          <div layout="row" class="no-print" ng-if="!ic.reporte">
+            <md-button ng-click="ic.nuevo()">Nuevo</md-button>
+            <md-button ng-click="ic.descargarExcel()">Exportar</md-button>
+          </div>
+          <div hide-xs layout="row" style="margin-left: auto; margin-right: 0px" class="no-print">
+            <md-button ng-show="ic.reporte" ng-click="ic.imprimir()">Imprimir</md-button>
+            <md-switch ng-model="ic.reporte" aria-label="Imprimir">
+              Vista de impresión
+            </md-switch>
+          </div>
+        </div>
+      </md-toolbar>
+      <md-content layout-padding>
+        <div layout="row" class="no-print" ng-if="!ic.reporte">
+          <md-input-container class="md-block" flex>
+            <label>Buscar</label>
+            <input ng-model="ic.buscar" ng-change="ic.filtrar()" ng-model-options="{debounce: 200}">
+          </md-input-container>
+        </div>
+        <div layout="row" class="no-print" ng-if="!ic.reporte">
+          <md-input-container class="md-block">
+            <label>Mostrar</label>
+            <md-select ng-model="ic.filtro" ng-change="ic.filtrar()">
+              <md-option ng-repeat="fil in ic.filtros" value="{{fil.id}}">
+                {{fil.nombre}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Ordenar por</label>
+            <md-select ng-model="ic.orden" ng-change="ic.recargar()">
+              <md-option ng-repeat="ord in ic.ordenarPor" value="{{ord.valor}}">
+                {{ord.nombre}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <md-switch ng-model="ic.reversa" aria-label="Reversa" ng-change="ic.recargar()">
+            Al revés
+          </md-switch>
+        </div>
+        <p ng-model="ic.movimientosFiltrados" class="reporte">Hay un total de
+          <strong>{{ic.movimientosFiltrados.length}}</strong> elementos.</p>
+        <p ng-model="ic.totalIngresos" class="reporte">
+          <strong>Total Ingresos:</strong> {{ ic.formatoMonetario(ic.totalIngresos) }}</p>
+        <p ng-model="ic.totalEgresos" class="reporte">
+          <strong>Total Egresos:</strong> {{ ic.formatoMonetario(ic.totalEgresos) }}</p>
+        <p ng-model="ic.totalSaldo" class="reporte">
+          <strong>Saldo:</strong> {{ ic.formatoMonetario(ic.totalSaldo) }}</p>
+        <md-list ng-if="!ic.reporte">
+          <md-virtual-repeat-container id="vertical-container">
+            <md-list-item class="repeated-item" md-virtual-repeat="mov in ic.movimientosFiltrados" ng-click="ic.editar(mov)">
+              <p flex="20" hide-xs>{{ ic.formatoFecha(mov.fecha) }}</p>
+              <p flex="60">{{ mov.detalle }}</p>
+              <p flex="15">{{ ic.formatoMonetario(mov.importe) }}</p>
+              <p flex="5">
+                <md-icon class="md-secondary" ng-click="ic.eliminar(mov)" aria-label="Eliminar">
+                  <i class="material-icons no-print">delete</i>
+                </md-icon>
+              </p>
+            </md-list-item>
+          </md-virtual-repeat-container>
+          </br>
+        </md-list>
+        <table ng-if="ic.reporte">
+          <tr ng-repeat="mov in ic.movimientosFiltrados">
+            <td>{{ ic.formatoFecha(mov.fecha) }}</td>
+            <td>{{ mov.detalle }}</td>
+            <td>{{ ic.formatoMonetario(mov.importe) }}</td>
+          </tr>
+        </table>
+      </md-content>
+    </div>
+    <div ng-show="ic.modoEdicion">
+      <md-toolbar md-scroll-shrink>
+        <div class="md-toolbar-tools titulo">Editar movimiento</div>
+      </md-toolbar>
+      <md-content style="width: 75%; margin: auto;" layout-padding>
+        <form name="projectForm" ng-submit="ic.guardar()">
+          <md-input-container class="md-block">
+            <label>Fecha</label>
+            <md-datepicker ng-model="ic.movimiento.fecha"></md-datepicker>
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Detalle</label>
+            <input required md-no-asterisk name="detalle" ng-model="ic.movimiento.detalle">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Importe</label>
+            <input required md-no-asterisk type="number" min="0" step="any" name="movimiento" ng-model="ic.movimiento.importe">
+          </md-input-container>
+          <md-input-container class="md-block">
+            <label>Tipo</label>
+            <md-select ng-model="ic.movimiento.gasto">
+              <md-option ng-repeat="tipo in ic.tipoMovimiento" value="{{tipo.valor}}">
+                {{tipo.nombre}}
+              </md-option>
+            </md-select>
+          </md-input-container>
+          <div class="row" layout-align="end center">
+            <div>
+              <md-input-container class="md-block">
+                <md-button class="md-raised" ng-click="ic.cancelar()">Cancelar</md-button>
+                <md-button class="md-raised md-primary" type="submit">Guardar</md-button>
+              </md-input-container>
+            </div>
+          </div>
+        </form>
+      </md-content>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+
+  <!-- Angular Material Library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+  <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+  <script src="./res/moment-with-locales.min.js"></script>
+  <script src="./res/xlsx.full.min.js"></script>
+  <script src="./res/FileSaver.min.js"></script>
+
+  <!-- Your application bootstrap  -->
+  <script src="./renderer.js"></script>
+  <script src="./services/bd.movimientos.js"></script>
+  <script src="./services/uuid.js"></script>
+  <script src="./services/date.js"></script>
+  <script src="./controllers/inicio.controller.js"></script>
+</body>
+
+</html>

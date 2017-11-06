@@ -19,5 +19,9 @@ Calcula el total de tu compra
 
 Codifica en español y ejecuta en javascript
 
+* [Cuentas Personales](https://lainz.github.io/webapps/cuentas/)
+
+Calcula el total de tus ingresos y egresos
+
 # Acerca de
 Web Apps Copyright 2017 Leandro Diaz (lainz).
