@@ -79,7 +79,7 @@
           </md-virtual-repeat-container>
           </br>
         </md-list>
-        <table ng-if="ic.reporte">
+        <table id="reporte" ng-if="ic.reporte">
           <tr ng-repeat="mov in ic.movimientosFiltrados">
             <td>{{ ic.formatoFecha(mov.fecha) }}</td>
             <td>{{ mov.detalle }}</td>
