@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Turtle Graphics : Infinity</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        #canvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        (function () {
+            function init() {
+                window.requestAnimationFrame(draw);
+            }
+
+            var gAngle = 0;
+
+            function move(ctx, distance) {
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.translate(distance, 0);
+                ctx.lineTo(0, 0);
+                ctx.stroke();
+            }
+
+            function rotate(ctx, angle) {
+                ctx.rotate(angle * Math.PI / 180);
+            }
+
+            function draw() {
+                var canvas = document.getElementById('canvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                var ctx = document.getElementById('canvas').getContext('2d');
+
+                gAngle = gAngle + 0.05;
+
+                ctx.resetTransform();
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
+                for (var i = 1; i <= 490; i++) {
+                    move(ctx, i);
+                    rotate(ctx, gAngle);
+                }
+                window.requestAnimationFrame(draw);
+            }
+
+            init();
+        })();</script>
+</body>
+
+</html>
