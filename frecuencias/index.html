@@ -43,9 +43,11 @@
         <div class="ng-cloack panel panel-default">
             <div class="panel-heading">Resultados</div>
             <div class="panel-body">
-                <p>En este texto hay {{pc.salida.length}} palabras únicas y un total de {{pc.palabras}} palabras. En la siguiente tabla haga click en cualquier palabra para abrirla en el diccionario de la RAE.</p>
+                <p>En este texto hay {{pc.salida.length}} palabras únicas y un total de {{pc.palabras}} palabras. En la siguiente
+                    tabla haga click en cualquier palabra para abrirla en el diccionario de la RAE.</p>
                 <div class="checkbox">
-                    <label><input type="checkbox" ng-click="pc.cambiar_grafico()" value="">Graficar (activar solo cuando haya finalizado de escribir)</label>
+                    <label>
+                        <input type="checkbox" ng-click="pc.cambiar_grafico()" value="">Graficar (activar solo cuando haya finalizado de escribir)</label>
                 </div>
                 <div id="chart" ng-show="pc.graficar"></div>
             </div>
@@ -59,7 +61,9 @@
                 </thead>
                 <tbody>
                     <tr ng-repeat="sal in pc.salida">
-                        <td><a href="http://dle.rae.es/?w={{sal.palabra}}" target="_blank">{{sal.palabra}}</a></td>
+                        <td>
+                            <a href="http://dle.rae.es/?w={{sal.palabra}}" target="_blank">{{sal.palabra}}</a>
+                        </td>
                         <td>{{sal.frecuencia}}</td>
                         <td>{{sal.porcentaje}}%</td>
                     </tr>
@@ -69,6 +73,29 @@
     </div>
     <script>
         (function () {
+            if (!Array.prototype.findIndex) {
+                Array.prototype.findIndex = function (predicate) {
+                    if (this === null) {
+                        throw new TypeError('Array.prototype.findIndex called on null or undefined');
+                    }
+                    if (typeof predicate !== 'function') {
+                        throw new TypeError('predicate must be a function');
+                    }
+                    var list = Object(this);
+                    var length = list.length >>> 0;
+                    var thisArg = arguments[1];
+                    var value;
+
+                    for (var i = 0; i < length; i++) {
+                        value = list[i];
+                        if (predicate.call(thisArg, value, i, list)) {
+                            return i;
+                        }
+                    }
+                    return -1;
+                };
+            }
+
             var app = angular.module('Frecuencias', []);
 
             app.controller('FrecuenciasController', function () {
@@ -98,7 +125,7 @@
                     var salida = [];
 
                     for (var i = 0; i < palabras.length; i++) {
-                        var id = salida.findIndex(x => x.palabra === palabras[i]);
+                        var id = salida.findIndex(function (x) { return x.palabra === palabras[i] });
                         if (id != -1) {
                             salida[id].frecuencia = salida[id].frecuencia + 1;
                         } else {
