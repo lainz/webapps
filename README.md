@@ -1,4 +1,4 @@
-# Web Apps
+# Lainz Web Apps
 * [Frecuencias](https://lainz.github.io/webapps/frecuencias/)
 
 Obtener las cantidad de veces que aparece una palabra en un texto
