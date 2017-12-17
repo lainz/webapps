@@ -13,7 +13,7 @@
                 'with',
                 // pseudocodigo
                 'si', 'entonces', 'sino', 'finsi', 'para', 'finpara', 'funcion', 'finfuncion', 'retornar',
-                'hacer', 'mientras', 'finmientras', 'repetir', 'mientrasque', 'segun', 'finsegun', 'deotromodo:',
+                'hacer', 'mientras', 'finmientras', 'repetir', 'mientrasque', 'segun', 'finsegun', 'deotromodo',
                 'caso', 'terminar'
             ],
 
