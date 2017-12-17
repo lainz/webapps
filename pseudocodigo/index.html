@@ -6,19 +6,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" rel="stylesheet">
+	<link data-name="vs/editor/editor.main" rel="stylesheet" href="node_modules/monaco-editor/min/vs/editor/editor.main.css">
     <style>
         * {
             font-family: 'Roboto', sans-serif;
         }
 
         body {
-            padding: 10px;
-        }
-
-        textarea {
-            font-family: 'Roboto Mono', monospace;
+            padding: 15px;
         }
     </style>
 </head>
@@ -28,18 +25,23 @@
         <h3>Pseudocódigo</h4>
             <p>El código que escribas se guarda automáticamente. La próxima vez que abras el navegador tendrás tu código como lo dejaste.</p>
             <p><a href="#ejecutar">Ejecutar</a>, <a href="#referencia">Referencia</a></p>
-            <textarea spellcheck="false" ng-change="pc.procesar()" ng-model="pc.entrada" style="width: 100%; height: 70vh"></textarea>
+			<div id="editor" style="width: 100%; height: 70vh"></div>
     </div>
     <div id="ejecutar">
         <h3>Salida JavaScript</h4>
-            <p>Ejecuta el Pseudocódigo convertido a JavaScript: <input type="button" ng-click="pc.ejecutar()" value="Ejecutar"> Si no llegara a ejecutarse revisa la consola del navegador para ver el error, en Chrome: Ctrl + Mayus + I, en Firefox: Ctrl + Mayus + K.</p>
-            <textarea readonly spellcheck="false" ng-model="pc.salida4" style="width: 100%; height: 70vh"></textarea>
+            <p>Ejecuta el Pseudocódigo convertido a JavaScript: <input type="button" ng-click="pc.ejecutar()" value="Ejecutar">.</p>
+            <p ng-if="pc.error"><b style="color: red">Error!</b><br>{{pc.error}}</p>
+            <div id="editor2" style="width: 100%; height: 70vh"></div>
     </div>
     <div id="referencia">
         <h3>Referencia</h4>
-            <textarea readonly spellcheck="false" ng-model="pc.referencia" style="width: 100%; height: 70vh"></textarea>
+			<div id="editor3" style="width: 100%; height: 70vh"></div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	<script>var require = { paths: { 'vs': 'node_modules/monaco-editor/min/vs' } };</script>
+	<script src="node_modules/monaco-editor/min/vs/loader.js"></script>
+	<script src="node_modules/monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+	<script src="node_modules/monaco-editor/min/vs/editor/editor.main.js"></script>
     <script src="./app.js"></script>
 
 </body>

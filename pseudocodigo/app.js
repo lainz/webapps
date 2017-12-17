@@ -1,4 +1,142 @@
 (function () {
+    function pseudocodigo() {
+        return {
+            tokenPostfix: '.js',
+
+            keywords: [
+                'boolean', 'break', 'byte', 'case', 'catch', 'char', 'class', 'const', 'continue', 'debugger',
+                'default', 'delete', 'do', 'double', 'else', 'enum', 'export', 'extends', 'false', 'final',
+                'finally', 'float', 'for', 'function', 'goto', 'if', 'implements', 'import', 'in',
+                'instanceof', 'int', 'interface', 'long', 'native', 'new', 'null', 'package', 'private',
+                'protected', 'public', 'return', 'short', 'static', 'super', 'switch', 'synchronized', 'this',
+                'throw', 'throws', 'transient', 'true', 'try', 'typeof', 'var', 'void', 'volatile', 'while',
+                'with',
+                // pseudocodigo
+                'si', 'entonces', 'sino', 'finsi', 'para', 'finpara', 'funcion', 'finfuncion', 'retornar',
+                'hacer', 'mientras', 'finmientras', 'repetir', 'mientrasque', 'segun', 'finsegun', 'deotromodo:',
+                'caso', 'terminar'
+            ],
+
+            ignoreCase: true,
+            builtins: [
+                'define', 'require', 'window', 'document', 'undefined'
+            ],
+
+            operators: [
+                '=', '>', '<', '!', '~', '?', ':',
+                '==', '<=', '>=', '!=', '&&', '||', '++', '--',
+                '+', '-', '*', '/', '&', '|', '^', '%', '<<',
+                '>>', '>>>', '+=', '-=', '*=', '/=', '&=', '|=',
+                '^=', '%=', '<<=', '>>=', '>>>='
+            ],
+
+            // define our own brackets as '<' and '>' do not match in javascript
+            brackets: [
+                ['(', ')', 'bracket.parenthesis'],
+                ['{', '}', 'bracket.curly'],
+                ['[', ']', 'bracket.square']
+            ],
+
+            // common regular expressions
+            symbols: /[~!@#%\^&*-+=|\\:`<>.?\/]+/,
+            escapes: /\\(?:[btnfr\\"']|[0-7][0-7]?|[0-3][0-7]{2})/,
+            exponent: /[eE][\-+]?[0-9]+/,
+
+            regexpctl: /[(){}\[\]\$\^|\-*+?\.]/,
+            regexpesc: /\\(?:[bBdDfnrstvwWn0\\\/]|@regexpctl|c[A-Z]|x[0-9a-fA-F]{2}|u[0-9a-fA-F]{4})/,
+
+            tokenizer: {
+                root: [
+                    // identifiers and keywords
+                    [/([a-zA-Z_\$][\w\$]*)(\s*)(:?)/, {
+                        cases: {
+                            '$1@keywords': ['keyword', 'white', 'delimiter'],
+                            '$3': ['key.identifier', 'white', 'delimiter'],   // followed by :
+                            '$1@builtins': ['predefined.identifier', 'white', 'delimiter'],
+                            '@default': ['identifier', 'white', 'delimiter']
+                        }
+                    }],
+
+                    // whitespace
+                    { include: '@whitespace' },
+
+                    // regular expression: ensure it is terminated before beginning (otherwise it is an opeator)
+                    [/\/(?=([^\\\/]|\\.)+\/)/, { token: 'regexp.slash', bracket: '@open', next: '@regexp' }],
+
+                    // delimiters and operators
+                    [/[{}()\[\]]/, '@brackets'],
+                    [/[;,.]/, 'delimiter'],
+                    [/@symbols/, {
+                        cases: {
+                            '@operators': 'operator',
+                            '@default': ''
+                        }
+                    }],
+
+                    // numbers
+                    [/\d+\.\d*(@exponent)?/, 'number.float'],
+                    [/\.\d+(@exponent)?/, 'number.float'],
+                    [/\d+@exponent/, 'number.float'],
+                    [/0[xX][\da-fA-F]+/, 'number.hex'],
+                    [/0[0-7]+/, 'number.octal'],
+                    [/\d+/, 'number'],
+
+                    // strings: recover on non-terminated strings
+                    [/"([^"\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+                    [/'([^'\\]|\\.)*$/, 'string.invalid'],  // non-teminated string
+                    [/"/, 'string', '@string."'],
+                    [/'/, 'string', '@string.\''],
+                ],
+
+                whitespace: [
+                    [/[ \t\r\n]+/, 'white'],
+                    [/\/\*/, 'comment', '@comment'],
+                    [/\/\/.*$/, 'comment'],
+                ],
+
+                comment: [
+                    [/[^\/*]+/, 'comment'],
+                    // [/\/\*/, 'comment', '@push' ],    // nested comment not allowed :-(
+                    [/\/\*/, 'comment.invalid'],
+                    ["\\*/", 'comment', '@pop'],
+                    [/[\/*]/, 'comment']
+                ],
+
+                string: [
+                    [/[^\\"']+/, 'string'],
+                    [/@escapes/, 'string.escape'],
+                    [/\\./, 'string.escape.invalid'],
+                    [/["']/, {
+                        cases: {
+                            '$#==$S2': { token: 'string', next: '@pop' },
+                            '@default': 'string'
+                        }
+                    }]
+                ],
+
+                // We match regular expression quite precisely
+                regexp: [
+                    [/(\{)(\d+(?:,\d*)?)(\})/, ['@brackets.regexp.escape.control', 'regexp.escape.control', '@brackets.regexp.escape.control']],
+                    [/(\[)(\^?)(?=(?:[^\]\\\/]|\\.)+)/, ['@brackets.regexp.escape.control', { token: 'regexp.escape.control', next: '@regexrange' }]],
+                    [/(\()(\?:|\?=|\?!)/, ['@brackets.regexp.escape.control', 'regexp.escape.control']],
+                    [/[()]/, '@brackets.regexp.escape.control'],
+                    [/@regexpctl/, 'regexp.escape.control'],
+                    [/[^\\\/]/, 'regexp'],
+                    [/@regexpesc/, 'regexp.escape'],
+                    [/\\\./, 'regexp.invalid'],
+                    ['/', { token: 'regexp.slash', bracket: '@close' }, '@pop'],
+                ],
+
+                regexrange: [
+                    [/-/, 'regexp.escape.control'],
+                    [/\^/, 'regexp.invalid'],
+                    [/@regexpesc/, 'regexp.escape'],
+                    [/[^\]]/, 'regexp'],
+                    [/\]/, '@brackets.regexp.escape.control', '@pop'],
+                ],
+            },
+        };
+    }
     var codigo_inicial =
         `// Funciones
 Funcion suma(a,b) Hacer
@@ -132,6 +270,8 @@ MientrasQue(i<5)
         }
     ]
 
+    //console.log(PalabrasReservadas.map(function (v) { return "'" + v.palabra + "'" }).join(','));
+
     var TiposDeToken = {
         NUMERO: 0,
         PALABRA: 1,
@@ -264,10 +404,15 @@ MientrasQue(i<5)
     }
 
     app.controller('PseudoCodigoController', function () {
-        this.ejecutar = function () {
-            eval(this.salida4);
+        this.ejecutar = () => {
+            try {
+                eval(editor2.getValue());
+            } catch (error) {
+                this.error = error;
+            }
         }
         this.procesar = function () {
+            this.entrada = editor.getValue();
             localStorage.setItem("codigo", this.entrada);
             var tokens = [];
             for (var i = 0; i < this.entrada.length; i++) {
@@ -371,16 +516,43 @@ MientrasQue(i<5)
                     this.salida3 = "";
                 }*/
 
-                this.salida4 = tokens2.map(function (value) { return value.valor }).join('');
+                editor2.setValue(tokens2.map(function (value) { return value.valor }).join(''));
             }
         }
         this.referencia = codigo_inicial;
         this.entrada = codigo_inicial;
-        
+
         let codigo = localStorage.getItem("codigo");
         if (codigo != null && codigo != "") {
             this.entrada = codigo;
         }
+
+        monaco.languages.register({ id: 'pseudocodigo' });
+        monaco.languages.setMonarchTokensProvider('pseudocodigo', pseudocodigo());
+
+        var editor;
+        var editor2;
+        var editor3;
+        require(['vs/editor/editor.main'], () => {
+            editor = monaco.editor.create(document.getElementById('editor'), {
+                value: this.entrada,
+                language: 'pseudocodigo'
+            });
+        });
+        require(['vs/editor/editor.main'], () => {
+            editor2 = monaco.editor.create(document.getElementById('editor2'), {
+                language: 'javascript'
+            });
+        });
+        require(['vs/editor/editor.main'], () => {
+            editor3 = monaco.editor.create(document.getElementById('editor3'), {
+                value: codigo_inicial,
+                language: 'pseudocodigo'
+            });
+        });
+
+        editor3.updateOptions({ readOnly: true })
+        editor.onDidChangeModelContent((e) => { this.procesar() });
         this.procesar();
     });
 })();
