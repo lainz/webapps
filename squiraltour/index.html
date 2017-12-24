@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Squiral Tour</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <style>
+        #canvas {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id="canvas" style="background-color: black;"></canvas>
+    <script>
+        (function () {
+            function init() {
+                window.requestAnimationFrame(draw);
+            }
+
+            var gAngle = 0;
+
+            function move(ctx, distance) {
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.translate(distance * 2, 0);
+                ctx.lineTo(0, 0);
+                ctx.strokeStyle = `rgb(${255-distance},${distance},${distance})`;//,${(255-distance)/255})`;
+                ctx.stroke();
+            }
+
+            function rotate(ctx, angle) {
+                ctx.rotate(angle * Math.PI / 180);
+            }
+
+            var special = [
+                {
+                    min: 44,
+                    max: 46
+                },
+                {
+                    min: 59,
+                    max: 61
+                },
+                {
+                    min: 79,
+                    max: 81
+                },
+                {
+                    min: 89,
+                    max: 91
+                },
+                {
+                    min: 119,
+                    max: 121
+                },
+                {
+                    min: 139,
+                    max: 141
+                },
+                {
+                    min: 149,
+                    max: 151
+                },
+                {
+                    min: 159,
+                    max: 161
+                },
+                {
+                    min: 169,
+                    max: 171
+                },
+                {
+                    min: 178,
+                    max: 180
+                }
+            ]
+
+            function isSpecial() {
+                for (var i=0; i< special.length; i++) {
+                    if (gAngle >= special[i].min && gAngle <= special[i].max) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            function draw() {
+                var canvas = document.getElementById('canvas');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                var ctx = document.getElementById('canvas').getContext('2d');
+
+                if (isSpecial()) {
+                    gAngle = gAngle + 0.001
+                } else {
+                    gAngle = gAngle + 0.05
+                }
+
+                if (gAngle >= 360) {
+                    gAngle = 0;
+                }
+
+                //ctx.resetTransform();
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+                ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
+                for (var i = 1; i <= 255; i++) {
+                    move(ctx, i);
+                    rotate(ctx, gAngle);
+                }
+                window.requestAnimationFrame(draw);
+            }
+
+            init();
+        })();</script>
+</body>
+
+</html>

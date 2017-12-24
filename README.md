@@ -31,5 +31,9 @@ Turtle Graphics con Canvas
 
 Turtle Graphics con Canvas
 
+* [Squiral Tour](https://lainz.github.io/webapps/squiraltour/)
+
+Igual que Turtle Graphics : Infinity con paradas en gráficos distintivos
+
 # Acerca de
-Web Apps Copyright 2017 Leandro Diaz (lainz).
+Web Apps Copyright 2017-2018 Leandro Diaz (lainz).
