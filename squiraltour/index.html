@@ -40,48 +40,11 @@
                 ctx.rotate(angle * Math.PI / 180);
             }
 
-            var special = [
-                {
-                    min: 44,
-                    max: 46
-                },
-                {
-                    min: 59,
-                    max: 61
-                },
-                {
-                    min: 79,
-                    max: 81
-                },
-                {
-                    min: 89,
-                    max: 91
-                },
-                {
-                    min: 119,
-                    max: 121
-                },
-                {
-                    min: 139,
-                    max: 141
-                },
-                {
-                    min: 149,
-                    max: 151
-                },
-                {
-                    min: 159,
-                    max: 161
-                },
-                {
-                    min: 169,
-                    max: 171
-                },
-                {
-                    min: 178,
-                    max: 180
-                }
-            ]
+            var special = []
+            var stages = 360/24
+            for (var i=1; i <= 24; i++) {
+                special.push({max:(stages*i)+0.1,min:(stages*i)-0.1});
+            }
 
             function isSpecial() {
                 for (var i=0; i< special.length; i++) {
@@ -99,7 +62,7 @@
                 var ctx = document.getElementById('canvas').getContext('2d');
 
                 if (isSpecial()) {
-                    gAngle = gAngle + 0.001
+                    gAngle = gAngle + 0.0005
                 } else {
                     gAngle = gAngle + 0.05
                 }
