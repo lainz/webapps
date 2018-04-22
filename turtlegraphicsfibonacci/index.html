@@ -48,7 +48,16 @@
 			document.body.onmousedown = function() { 
 				mouseDown = 1;
 			}
+			
+			document.body.ontouchstart = function() {
+				mouseDown = 1;
+			}
+			
 			document.body.onmouseup = function() {
+				mouseDown = 0;
+			}
+			
+			document.body.ontouchend = function() {
 				mouseDown = 0;
 			}
 
