@@ -5,7 +5,7 @@
     <title>Turtle Graphics : Fibonacci</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+    <!--script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script-->
     <style>
         #canvas {
             position: fixed;
@@ -43,6 +43,14 @@
             }
 
             var gAngle = 0;
+			var mouseDown = 0;
+			
+			document.body.onmousedown = function() { 
+				mouseDown = 1;
+			}
+			document.body.onmouseup = function() {
+				mouseDown = 0;
+			}
 
             function move(ctx, distance) {
                 ctx.beginPath();
@@ -62,7 +70,10 @@
                 canvas.height = window.innerHeight;
                 var ctx = document.getElementById('canvas').getContext('2d');
 
-                gAngle = gAngle + 0.1;
+				if (mouseDown)
+					gAngle = gAngle + 0.01;
+				else
+					gAngle = gAngle + 0.1;
 
                 //ctx.resetTransform();
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
