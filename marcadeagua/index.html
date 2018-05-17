@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head ng-app="MarcaDeAgua">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="watermark.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+        crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">Marca de Agua</h1>
+            <p class="lead">Agrega marca de agua a tus fotos!</p>
+        </div>
+    </div>
+    <div class="container-fluid" ng-controller="MarcaDeAguaController as ma">
+        <form>
+            <div class="form-group">
+                <label for="imagen">Foto</label>
+                <input id="imagen" class="form-control" type="file" accept=".jpg, .jpeg, .png" onchange="mostrar_imagen()">
+            </div>
+            <div class="form-group">
+                <label for="logo">Marca de agua</label>
+                <input id="logo" class="form-control" type="file" accept=".jpg, .jpeg, .png" onchange="mostrar_imagen()">
+            </div>
+            <div class="form-group">
+                <label for="transparencia">Transparencia</label>
+                <input id="transparencia" class="form-control" type="range" min=0.1 max=1 step=0.1 value=0.8 onchange="mostrar_imagen()">
+            </div>
+            <div class="form-group">
+                <label for="posicion">Posicion</label>
+                <select id="posicion" class="form-control" onchange="mostrar_imagen()">
+                    <option value="center" selected>Centrado</option>
+                    <option value="upperLeft">Arriba Izquierda</option>
+                    <option value="upperRight">Arriba Derecha</option>
+                    <option value="lowerLeft">Abajo Izquierda</option>
+                    <option value="lowerRight">Abajo Derecha</option>
+                </select>
+            </div>
+        </form>
+        <div id="container"></div>
+        <footer class="text-muted">
+            <p>Marca de Agua &copy; 2018 Leandro Diaz. Creado con "Vanilla JS",
+                <a href="https://getbootstrap.com/">Boostrap</a> y
+                <a href="http://brianium.github.io/watermarkjs/">watermark.js</a>.</p>
+        </footer>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>
