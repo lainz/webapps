@@ -14,7 +14,8 @@ var socket;
 function init(){
   try
   {
-    socket = new WebSocket("ws://localhost:8888/whatever/","meow");
+    var ip = prompt('IP del servidor', 'localhost:8888')
+    socket = new WebSocket("ws://" + ip + "/whatever/","meow");
     // socket = new WebSocket("ws://localhost:8888",""); // will also work
     log('WebSocket - status '+socket.readyState);
     socket.onopen    = function(msg){ console.log(msg); log("onopen: Welcome - status "+this.readyState); };
