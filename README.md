@@ -33,6 +33,14 @@ Turtle Graphics con Canvas
 
 * [Squiral Tour](https://lainz.github.io/webapps/squiraltour/)
 
+Turtle Graphics Paint
+
+* [Squiral Tour](https://lainz.github.io/webapps/turtlegraphicspaint/)
+
+Marca de Agua
+
+* [Squiral Tour](https://lainz.github.io/webapps/marcadeagua/)
+
 Igual que Turtle Graphics : Infinity con paradas en gráficos distintivos
 
 # Acerca de
