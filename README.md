@@ -20,6 +20,3 @@
 * [Turtle Graphics Paint](https://lainz.github.io/webapps/turtlegraphicspaint/)
 
 * [Marca de Agua](https://lainz.github.io/webapps/marcadeagua/)
-
-# Acerca de
-Web Apps Copyright 2017-2018 Leandro Diaz (lainz).
