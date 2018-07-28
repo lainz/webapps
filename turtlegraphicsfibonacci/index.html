@@ -17,9 +17,32 @@
     </style>
 </head>
 
-<body>
+<body onclick="requestFullScreen()">
     <canvas id="canvas"></canvas>
     <script>
+        function requestFullScreen() {
+
+            var el = document.documentElement;
+
+            // Supports most browsers and their versions.
+            var requestMethod = el.requestFullScreen || el.webkitRequestFullScreen
+                || el.mozRequestFullScreen || el.msRequestFullScreen;
+
+            if (requestMethod) {
+
+                // Native full screen.
+                requestMethod.call(el);
+
+            } else if (typeof window.ActiveXObject !== "undefined") {
+
+                // Older IE.
+                var wscript = new ActiveXObject("WScript.Shell");
+
+                if (wscript !== null) {
+                    wscript.SendKeys("{F11}");
+                }
+            }
+        }
         (function () {
             function fibonacci(num) {
                 var a = 1, b = 0, temp;
@@ -36,30 +59,30 @@
             var fibo = new Array(400)
 
             function init() {
-                for (var i=0; i<400; i++) {
+                for (var i = 0; i < 400; i++) {
                     fibo[i] = fibonacci(i);
                 }
                 window.requestAnimationFrame(draw);
             }
 
             var gAngle = 0;
-			var mouseDown = 0;
-			
-			document.body.onmousedown = function() { 
-				mouseDown = 1;
-			}
-			
-			document.body.ontouchstart = function() {
-				mouseDown = 1;
-			}
-			
-			document.body.onmouseup = function() {
-				mouseDown = 0;
-			}
-			
-			document.body.ontouchend = function() {
-				mouseDown = 0;
-			}
+            var mouseDown = 0;
+
+            document.body.onmousedown = function () {
+                mouseDown = 1;
+            }
+
+            document.body.ontouchstart = function () {
+                mouseDown = 1;
+            }
+
+            document.body.onmouseup = function () {
+                mouseDown = 0;
+            }
+
+            document.body.ontouchend = function () {
+                mouseDown = 0;
+            }
 
             function move(ctx, distance) {
                 ctx.beginPath();
@@ -79,17 +102,24 @@
                 canvas.height = window.innerHeight;
                 var ctx = document.getElementById('canvas').getContext('2d');
 
-				if (mouseDown)
-					gAngle = gAngle + 0.01;
-				else
-					gAngle = gAngle + 0.1;
+                var scale = window.devicePixelRatio;
+                canvas.width = canvas.width * scale;
+                canvas.height = canvas.height * scale;
+
+                // Normalize coordinate system to use css pixels.
+                ctx.scale(scale, scale);
+
+                if (mouseDown)
+                    gAngle = gAngle + 0.01;
+                else
+                    gAngle = gAngle + 0.1;
 
                 //ctx.resetTransform();
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-                ctx.translate(window.innerWidth / 2, window.innerHeight / 2);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.translate(canvas.width / 2, canvas.height / 2);
                 for (var i = 1; i <= 490; i++) {
-                    move(ctx, fibo[i-1]);
+                    move(ctx, fibo[i - 1]);
                     rotate(ctx, gAngle);
                 }
                 window.requestAnimationFrame(draw);
