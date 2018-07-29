@@ -1,4 +1,4 @@
-# Lainz Web Apps
+# Web Apps
 * [Frecuencias](https://lainz.github.io/webapps/frecuencias/)
 
 * [Palindromos](https://lainz.github.io/webapps/palindromos/)
