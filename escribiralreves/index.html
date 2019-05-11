@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Escribir al revés</title>
+    <link rel="stylesheet" type="text/css" href="./css/app.css">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="./css/materialize.min.css" media="screen,projection" />
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./js/vue.min.js"></script>
+    <!--JavaScript at end of body for optimized loading-->
+    <script type="text/javascript" src="./js/materialize.min.js"></script>
+    <link rel="manifest" href="manifest.json">
+</head>
+
+<body>
+    <div id="app">
+        <nav>
+            <div class="nav-wrapper light-blue accent-4">
+                <a href="#" class="brand-logo center">{{titulo}}</a>
+            </div>
+        </nav>
+        <div class="container">
+            </br>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="entrada" type="text" v-model="texto" v-on:input="escribirAlReves()"
+                                placeholder="Escribe aquí" autocomplete="off" autocorrect="off" autocapitalize="off"
+                                spellcheck="false">
+                            <label for="entrada">Entrada</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <!-- Dropdown Trigger -->
+                            <a class='dropdown-trigger btn' href='#' data-target='dropdown1'>Formato</a>
+
+                            <!-- Dropdown Structure -->
+                            <ul id='dropdown1' class='dropdown-content'>
+                                <li><a href="#!" v-on:click="cambiarTipo(0)">{{tipos[0]}}</a></li>
+                                <li><a href="#!" v-on:click="cambiarTipo(1)">{{tipos[1]}}</a></li>
+                                <li><a href="#!" v-on:click="cambiarTipo(2)">{{tipos[2]}}</a></li>
+                            </ul>
+
+                            <p>{{tipos[tipo]}}</p>
+                        </div>
+                        <div class="input-field col s12">
+                            <input id="texto" type="text" v-model="textoAlReves" placeholder="Texto al revés"
+                                autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                            <label for="texto">Salida</label>
+                        </div>
+                        <div class="input-field col s12">
+                            <button class="waves-effect waves-light btn" v-on:click="copiarTextoAlReves"
+                                type="button">Copiar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="./js/app.js"></script>
+</body>
+
+</html>
