@@ -1,5 +1,5 @@
-var dataCacheName = 'revesData-v1.0.0';
-var cacheName = 'revesPWA-v1.0.0';
+var dataCacheName = 'revesData-v1.0.1';
+var cacheName = 'revesPWA-v1.0.1';
 var filesToCache = [
   '/webapps/escribiralreves/',
   '/webapps/escribiralreves/index.html',

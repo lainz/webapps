@@ -53,7 +53,7 @@ var app = new Vue({
                     case '}': return '{';
                     case '[': return ']';
                     case ';': return '؛';
-                    case ' ': return ' ';
+                    default: return value;
                 }
             }).join('');
         },
@@ -76,8 +76,7 @@ var app = new Vue({
 
         },
         copiarTextoAlReves: function () {
-            var txt = document.getElementById('texto');
-            txt.select();
+            document.getElementById('texto').select();
             document.execCommand("copy");
             M.Toast.dismissAll();
             M.toast({ html: '¡Copiado!', displayLength: 1000 });
