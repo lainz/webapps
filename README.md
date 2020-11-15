@@ -24,3 +24,5 @@
 * [Miradas](https://lainz.github.io/webapps/miradas/)
 
 * [Escribir al revés](https://lainz.github.io/webapps/escribiralreves/)
+
+* [Web Components Demo] (https://lainz.github.io/webapps/webcomponents/)
