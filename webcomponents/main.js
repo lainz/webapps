@@ -33,7 +33,7 @@ class App extends HTMLElement {
   filter(event) {
     var search = ''
     if (event) {
-      search = event.target.value
+      search = event.target.value.toLowerCase()
     }
     if (search) {
       var temp = this.data.filter(element => element.toLowerCase().indexOf(search) != -1)

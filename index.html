@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Lainz - Aplicaciones Web</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <style>
+            * {
+                margin: 0px;
+                padding: 0px;
+                color: rgb(160,160,160);
+                font-family: Arial, Helvetica, sans-serif;
+            }
+            .box {
+                display: flex;
+                min-height: 100vh;
+            }
+            .list {
+                background-color: rgb(20,20,20);
+                padding: 10px;
+            }
+            .title {
+                font-weight: bold;
+                margin: 5px;
+                padding: 5px;
+                border-bottom: 1px solid gray;
+            }
+            .button {
+                cursor: pointer;
+                border-radius: 3px;
+                margin: 5px;
+                padding: 5px;
+            }
+            .button:hover {
+                background-color: rgb(50,50,50);
+            }
+            .app {
+                width: 100%;
+                height: 100vh;
+                border-style: none;
+            }
+        </style>
+    </head>
+    <body class="bg">
+        <div class="box">
+            <div class="list">
+                <div class="title">Aplicaciones Web</div>
+                <div class="button" onclick="set('/compras/')">Compras</div>
+                <div class="button" onclick="set('/cuentas/')">Cuentas</div>
+                <div class="button" onclick="set('/escribiralreves/')">Escribir al revés</div>
+                <div class="button" onclick="set('/frecuencias/')">Frecuencias</div>
+                <div class="button" onclick="set('/marcadeagua/')">Marca de Agua</div>
+                <div class="button" onclick="set('/miradas/')">Miradas</div>
+                <div class="button" onclick="set('/palindromos/')">Palindromos</div>
+                <div class="button" onclick="set('/pseudocodigo/')">Pseudocódigo</div>
+                <div class="button" onclick="set('/siglos/')">Siglos</div>
+                <div class="button" onclick="set('/squiraltour/')">Squiral Tour</div>
+                <div class="button" onclick="set('/turtlegraphics/')">Turtle Graphics</div>
+                <div class="button" onclick="set('/turtlegraphicsfibonacci/')">Turtle Graphics Fibonacci</div>
+                <div class="button" onclick="set('/turtlegraphicspaint/')">Turtle Graphics Paint</div>
+                <div class="button" onclick="set('/webcomponents/')">Web Components</div>
+            </div>
+            <iframe class="app" id="app"></iframe>
+        </div>
+        <script>
+            var frame = document.getElementById("app")
+            function set(src) {
+                frame.src = src
+            }
+            set("/turtlegraphics/")
+        </script>
+    </body>
+</html>
