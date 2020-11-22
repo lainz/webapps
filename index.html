@@ -1,49 +1,88 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Lainz - Aplicaciones Web</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <style>
-            * {
-                margin: 0px;
-                padding: 0px;
-                color: rgb(160,160,160);
-                font-family: Arial, Helvetica, sans-serif;
-            }
-            .box {
-                display: flex;
-                min-height: 100vh;
-            }
-            .list {
-                background-color: rgb(20,20,20);
-                padding: 10px;
-            }
-            .title {
-                font-weight: bold;
-                margin: 5px;
-                padding: 5px;
-                border-bottom: 1px solid gray;
-            }
-            .button {
-                cursor: pointer;
-                border-radius: 3px;
-                margin: 5px;
-                padding: 5px;
-            }
-            .button:hover {
-                background-color: rgb(50,50,50);
-            }
-            .app {
-                width: 100%;
-                height: 100vh;
-                border-style: none;
-            }
-        </style>
-    </head>
-    <body class="bg">
-        <div class="box">
-            <div class="list">
+
+<head>
+    <title>Lainz - Aplicaciones Web</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            color: rgb(160, 160, 160);
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .box {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .list {
+            background-color: rgb(20, 20, 20);
+            padding: 10px;
+            overflow-y: auto;
+            max-height: 100vh;
+            min-width: max-content;
+            transition: width 0.3s ease;
+        }
+
+        .title {
+            font-weight: bold;
+            margin: 5px;
+            padding: 5px;
+            border-bottom: 1px solid gray;
+        }
+
+        .button {
+            cursor: pointer;
+            border-radius: 3px;
+            margin: 5px;
+            padding: 5px;
+            transition: background-color 0.5s;
+        }
+
+        .button:hover {
+            background-color: rgb(50, 50, 50);
+        }
+
+        .app {
+            width: 100%;
+            height: 100vh;
+            border-style: none;
+        }
+
+        .menu {
+            text-align: right;
+        }
+
+        /* width */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        /* Track */
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+        }
+
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+
+<body class="bg">
+    <div class="box">
+        <div class="list">
+            <div class="menu"><span class="button" onclick="hide()">☰</span></div>
+            <div id="list">
                 <div class="title">Aplicaciones Web</div>
                 <div class="button" onclick="set('/compras/')">Compras</div>
                 <div class="button" onclick="set('/cuentas/')">Cuentas</div>
@@ -58,16 +97,26 @@
                 <div class="button" onclick="set('/turtlegraphics/')">Turtle Graphics</div>
                 <div class="button" onclick="set('/turtlegraphicsfibonacci/')">Turtle Graphics Fibonacci</div>
                 <div class="button" onclick="set('/turtlegraphicspaint/')">Turtle Graphics Paint</div>
-                <div class="button" onclick="set('/webcomponents/')">Web Components</div>
+                <!--div class="button" onclick="set('/webcomponents/')">Web Components</div-->
             </div>
-            <iframe class="app" id="app"></iframe>
         </div>
-        <script>
-            var frame = document.getElementById("app")
-            function set(src) {
-                frame.src = document.location.href + src
+        <iframe class="app" id="app"></iframe>
+    </div>
+    <script>
+        var frame = document.getElementById("app")
+        var list = document.getElementById("list")
+        function set(src) {
+            frame.src = document.location.href + src
+        }
+        function hide() {
+            if (list.hasAttribute("hidden")) {
+                list.removeAttribute("hidden")
+            } else {
+                list.setAttribute("hidden", true)
             }
-            set("/turtlegraphics/")
-        </script>
-    </body>
+        }
+        set("/turtlegraphics/")
+    </script>
+</body>
+
 </html>
