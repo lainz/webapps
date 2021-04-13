@@ -7,26 +7,67 @@ function getRandomInt(min, max) {
 var md = false
 var mx, my = 0
 var canvas = document.getElementById("canvas")
+if (screen.width > screen.height) {
+    canvas.width = 150
+    canvas.height = 85
+} else {
+    canvas.width = 85
+    canvas.height = 150
+}
+let scaleX = 1;
+let scaleY = 1;
+var context = canvas.getContext('2d')
+
+function oMousePosScaleCSS(canvas, evt) {
+    let ClientRect = canvas.getBoundingClientRect(), 
+        scaleX = canvas.width / ClientRect.width,
+        scaleY = canvas.height / ClientRect.height; 
+        return {
+        x: (evt.clientX - ClientRect.left) * scaleX, 
+        y: (evt.clientY - ClientRect.top) * scaleY 
+    }
+  }
+  function oMousePosScaleCSSTouch(canvas, evt) {
+    let ClientRect = canvas.getBoundingClientRect(), 
+        scaleX = canvas.width / ClientRect.width,
+        scaleY = canvas.height / ClientRect.height; 
+        return {
+        x: (evt.changedTouches[0].clientX - ClientRect.left) * scaleX, 
+        y: (evt.changedTouches[0].clientY - ClientRect.top) * scaleY 
+    }
+  }
 canvas.addEventListener('mousedown', (event) => {
-    //console.log(event)
     md = true
 })
 canvas.addEventListener('mouseup', (event) => {
-    //console.log(event)
     md = false
 })
-canvas.addEventListener('mousemove', (event) => {
-    //console.log(event)
-    mx = event.clientX
-    my = event.clientY
+canvas.addEventListener('touchstart', (event) => {
+    md = true
 })
-var context = canvas.getContext('2d')
+canvas.addEventListener('touchend', (event) => {
+    md = false
+})
+canvas.addEventListener('touchmove', (event) => {
+    console.log(event)
+    m = oMousePosScaleCSSTouch(canvas,event)
+    mx = Math.round(m.x)
+    my = Math.round(m.y)
+})
+canvas.addEventListener('mousemove', (event) => {
+    m = oMousePosScaleCSS(canvas,event)
+    mx = Math.round(m.x)
+    my = Math.round(m.y)
+})
+
+var hsla = 58
 
 class Sand {
     color = "black"
 
     constructor() {
-        this.color = `hsla(58, 100%, ${getRandomInt(45,80)}%, 1)`
+        hsla += 0.05
+        this.color = `hsla(${Math.round(hsla)}, 100%, ${getRandomInt(45,80)}%, 1)`
     }
 }
 
@@ -53,8 +94,8 @@ function draw() {
     context.clearRect(0, 0, canvas.width, canvas.height);
 
     if (md) {
-        for (var y = my - 10; y < my + 10; y++) {
-            for (var x = mx - 10; x < mx + 10; x++) {
+        for (var y = my - 5; y < my + 5; y++) {
+            for (var x = mx - 5; x < mx + 5; x++) {
                 if (y > 0 && y < sb.h && x > 0 && x < sb.w) {
                     if (Math.random() > 0.95) {
                         sb.putSand(x, y)
