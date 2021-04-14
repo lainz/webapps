@@ -95,10 +95,7 @@ class SandBox {
                     this.context.fillRect(this.gx, this.gy, 1, 1);
 
                     if (this.gy + 1 < this.h) {
-                        if (this.canBottom()) {
-                            this.pathBottom()
-                        }
-                        else if (this.canBottomLeft() && this.canBottomRight()) {
+                        if (this.canBottomLeft() && this.canBottomRight()) {
                             if (Math.random() > 0.5) {
                                 this.pathBottomRight()
                             } else {
@@ -111,6 +108,9 @@ class SandBox {
                         else if (this.canBottomRight()) {
                             this.pathBottomRight()
                         }
+                        else if (this.canBottom()) {
+                            this.pathBottom()
+                        }
                     }
                 }
             }
@@ -119,7 +119,7 @@ class SandBox {
     }
 
     canBottom() {
-        this.bitmap[this.gy + 1][this.gx] == "white"
+        return this.bitmap[this.gy + 1][this.gx] == "white"
     }
 
     canBottomLeft() {
