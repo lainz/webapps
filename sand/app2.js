@@ -55,8 +55,8 @@ class SandBox {
             this.canvas = document.getElementById("canvas")
             this.context = canvas.getContext('2d')
             // canvas size
-            this.canvas.width = Math.round(screen.width / 2)
-            this.canvas.height = Math.round(screen.height / 2)
+            this.canvas.width = screen.width
+            this.canvas.height = screen.height
             // bitmap
             this.w = this.canvas.width
             this.h = this.canvas.height
@@ -189,7 +189,7 @@ class SandBox {
     putSand(x, y) {
         const colorIndices = this.getColorIndicesForCoord(x, y, this.w);
         if (this.isWhite(colorIndices)) {
-            this.hsla += 0.00001
+            this.hsla += 0.0001 / this.size
             if (this.hsla > 1) {
                 this.hsla = 0
             }
