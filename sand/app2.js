@@ -34,6 +34,7 @@ class SandBox {
     scaleY = 1
     // size
     size = 1
+    speed = 2
     // threshold
     threshold = 0.95
     // mousedown
@@ -59,7 +60,7 @@ class SandBox {
             // bitmap
             this.w = this.canvas.width
             this.h = this.canvas.height
-            this.size = Math.round(screen.width / 32)
+            this.size = Math.round(this.w / 16)
             this.bitmap = new ImageData(this.w, this.h)
             for (let i = 0; i < this.bitmap.data.length; i += 4) {
                 this.bitmap.data[i + 0] = 255;    // R value
@@ -115,7 +116,7 @@ class SandBox {
             for (this.gx = 0; this.gx < this.w; this.gx++) {
                 this.gColorIndices = this.getColorIndicesForCoord(this.gx, this.gy, this.w)
                 if (!this.isWhite(this.gColorIndices)) {
-                    if (this.gy + 1 < this.h) {
+                    if (this.gy + this.speed < this.h) {
                         if (this.canBottomLeft() && this.canBottomRight()) {
                             if (Math.random() > 0.5) {
                                 this.pathBottomRight()
@@ -141,29 +142,29 @@ class SandBox {
     }
 
     canBottom() {
-        return this.isWhite(this.getColorIndicesForCoord(this.gx, this.gy + 1, this.w))
+        return this.isWhite(this.getColorIndicesForCoord(this.gx, this.gy + this.speed, this.w))
     }
 
     canBottomLeft() {
-        return this.isWhite(this.getColorIndicesForCoord(this.gx - 1, this.gy + 1, this.w))
+        return this.isWhite(this.getColorIndicesForCoord(this.gx - this.speed, this.gy + this.speed, this.w))
     }
 
     canBottomRight() {
-        return this.isWhite(this.getColorIndicesForCoord(this.gx + 1, this.gy + 1, this.w))
+        return this.isWhite(this.getColorIndicesForCoord(this.gx + this.speed, this.gy + this.speed, this.w))
     }
 
     pathBottom() {
-        this.setColor(this.getColorIndicesForCoord(this.gx, this.gy + 1, this.w))
+        this.setColor(this.getColorIndicesForCoord(this.gx, this.gy + this.speed, this.w))
         this.setWhite()
     }
 
     pathBottomLeft() {
-        this.setColor(this.getColorIndicesForCoord(this.gx - 1, this.gy + 1, this.w))
+        this.setColor(this.getColorIndicesForCoord(this.gx - this.speed, this.gy + this.speed, this.w))
         this.setWhite()
     }
 
     pathBottomRight() {
-        this.setColor(this.getColorIndicesForCoord(this.gx + 1, this.gy + 1, this.w))
+        this.setColor(this.getColorIndicesForCoord(this.gx + this.speed, this.gy + this.speed, this.w))
         this.setWhite()
     }
 
