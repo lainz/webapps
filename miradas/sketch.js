@@ -27,7 +27,7 @@ var color = 0;
 
 function setup() {
   // put setup code here
-  createCanvas(640, 400);
+  createCanvas(screen.width, screen.height, WEBGL);
   
   noStroke();
 }
@@ -35,7 +35,7 @@ function setup() {
 function draw() {
   background(0)
   color = 0;
-  translate(0, height / 2)
+  translate(-width / 2, 0)
   circles(width * zoom)
   zoom *= 1.015;
   if (zoom > 2) { zoom = 1 }
