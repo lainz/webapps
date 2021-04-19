@@ -27,7 +27,7 @@ var color = 0;
 
 function setup() {
   // put setup code here
-  createCanvas(screen.width, screen.height, WEBGL);
+  createCanvas(640, 400, WEBGL);
   
   noStroke();
 }
